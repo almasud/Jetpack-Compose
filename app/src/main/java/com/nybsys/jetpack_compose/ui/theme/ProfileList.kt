@@ -86,7 +86,7 @@ fun UserCard(user: User) {
                     color = Color.Black
                 )
                 Button(onClick = {
-                    Toast.makeText(context, "View profile is clicked", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "View profile is clicked for ${user.name}.", Toast.LENGTH_SHORT).show()
                 }) {
                     Text(text = "View profile")
                 }
