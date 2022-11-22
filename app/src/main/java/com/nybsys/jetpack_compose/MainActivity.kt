@@ -9,6 +9,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -38,38 +39,44 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun UserCard() {
     val context = LocalContext.current
-    Row(
+    Card(
+        elevation = 4.dp,
         modifier = Modifier
+            .padding(12.dp)
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(12.dp)
-            .border(width = 1.dp, color = Color.Gray)
-            .padding(12.dp)
     ) {
-        Image(
-            painter = painterResource(
-                id = R.drawable.almasud
-            ),
-            contentDescription = "User Image",
-            modifier = Modifier
-                .size(120.dp)
-                .clip(CircleShape)
-        )
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .padding(8.dp)
+                .padding(12.dp)
         ) {
-            Text(
-                text = "Abdullah Almasud",
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
+            Image(
+                painter = painterResource(
+                    id = R.drawable.almasud
+                ),
+                contentDescription = "User Image",
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
             )
-            Button(onClick = {
-                Toast.makeText(context, "View profile is clicked", Toast.LENGTH_SHORT).show()
-            }) {
-                Text(text = "View profile")
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = "Abdullah Almasud",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                Button(onClick = {
+                    Toast.makeText(context, "View profile is clicked", Toast.LENGTH_SHORT).show()
+                }) {
+                    Text(text = "View profile")
+                }
             }
         }
     }
