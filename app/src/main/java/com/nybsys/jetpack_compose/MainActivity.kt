@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.nybsys.jetpack_compose.ui.theme.JetpackComposeTheme
-import com.nybsys.jetpack_compose.ui.theme.UserList
+import com.nybsys.jetpack_compose.ui.theme.UserListScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ fun MyApp() {
             })
         },
         content = {
-            UserList()
+            UserListScreen()
         },
         backgroundColor = Color.LightGray
     )
