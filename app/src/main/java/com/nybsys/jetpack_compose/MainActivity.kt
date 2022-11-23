@@ -2,31 +2,31 @@ package com.nybsys.jetpack_compose
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.nybsys.jetpack_compose.databinding.ActivityMainBinding
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.nybsys.jetpack_compose.ui.theme.JetpackComposeTheme
-import com.nybsys.jetpack_compose.ui.user.UserFragment
 import com.nybsys.jetpack_compose.ui.user.UserListScreen
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Android Jetpack Compose"
-
-        supportFragmentManager.beginTransaction()
-            .add(R.id.container_main, UserFragment())
-            .commit()
+        setContent {
+            JetpackComposeTheme {
+                MyApp()
+            }
+        }
     }
 }
 
@@ -40,10 +40,33 @@ fun MyApp() {
             })
         },
         content = {
-            UserListScreen()
+            ComposeWithXml()
         },
         backgroundColor = Color.LightGray
     )
+}
+
+@Composable
+fun ComposeWithXml() {
+    Column(modifier = Modifier.fillMaxSize()) {
+        AndroidView(
+            factory = { context ->
+                View.inflate(context, R.layout.layout_one, null)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(bottom = 12.dp),
+            update = { layoutView ->
+                layoutView.findViewById<TextView>(R.id.tv_xml).apply {
+                    setOnClickListener {
+                        text = "I am from AndroidView"
+                    }
+                }
+            }
+        )
+        UserListScreen()
+    }
 }
 
 @Preview(showBackground = true)
