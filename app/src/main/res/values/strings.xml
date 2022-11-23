@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Jetpack Compose</string>
+    <string name="showing_from_xml">Showing from XML</string>
 </resources>
