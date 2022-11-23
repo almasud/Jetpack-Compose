@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.nybsys.jetpack_compose.ui.theme.JetpackComposeTheme
-import com.nybsys.jetpack_compose.ui.theme.UserListScreen
+import com.nybsys.jetpack_compose.ui.user.UserListScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

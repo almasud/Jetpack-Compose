@@ -1,4 +1,4 @@
-package com.nybsys.jetpack_compose.ui.theme
+package com.nybsys.jetpack_compose.ui.user
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
