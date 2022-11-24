@@ -2,29 +2,32 @@ package com.nybsys.jetpack_compose
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.nybsys.jetpack_compose.ui.BottomNavItem
 import com.nybsys.jetpack_compose.ui.task.TaskDetails
 import com.nybsys.jetpack_compose.ui.task.TaskList
+import com.nybsys.jetpack_compose.ui.task.TitleText
 import com.nybsys.jetpack_compose.ui.theme.JetpackComposeTheme
-import com.nybsys.jetpack_compose.ui.user.UserListScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +50,52 @@ fun MyApp() {
                 Text(text = "Android Jetpack Compose")
             })
         },
+        bottomBar = {
+                  val navItems = listOf(
+                      BottomNavItem.Home,
+                      BottomNavItem.Favorite,
+                      BottomNavItem.Feed,
+                      BottomNavItem.Profile,
+                  )
+            
+            BottomNavigation(
+                backgroundColor = colorResource(id = R.color.teal_700)
+            ) {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry?.destination?.route
+
+                navItems.forEach { item ->
+                    BottomNavigationItem(
+                        icon = {
+                            Icon(painter = painterResource(id = item.icon), contentDescription = item.title.toString())
+                        },
+                        label = { Text(text = stringResource(id = item.title)) },
+                        selectedContentColor = Color.White,
+                        unselectedContentColor = Color.White.copy(alpha = 0.4f),
+                        selected = currentRoute == item.navRoute,
+                        onClick = {
+                            navController.navigate(item.navRoute)
+                        }
+                    )
+                }
+            }
+        },
         content = {
             NavHost(
                 navController = navController,
-                startDestination = "home"
+                startDestination = NAV_HOME
             ) {
-                composable("home") {
+                composable(NAV_HOME) {
                     TaskList(navController)
+                }
+                composable(NAV_FAVORITE) {
+                    AppScreen(title = "Favorite Screen")
+                }
+                composable(NAV_FEED) {
+                    AppScreen(title = "Favorite Feed")
+                }
+                composable(NAV_PROFILE) {
+                    AppScreen(title = "Profile Screen")
                 }
                 composable("task-details?item={item}",
                 arguments = listOf(
@@ -74,27 +116,20 @@ fun MyApp() {
 }
 
 @Composable
-fun ComposeWithXml() {
-    Column(modifier = Modifier.fillMaxSize()) {
-        AndroidView(
-            factory = { context ->
-                View.inflate(context, R.layout.layout_one, null)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(bottom = 12.dp),
-            update = { layoutView ->
-                layoutView.findViewById<TextView>(R.id.tv_xml).apply {
-                    setOnClickListener {
-                        text = "I am from AndroidView"
-                    }
-                }
-            }
-        )
-        UserListScreen()
+fun AppScreen(title: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        TitleText(title = title)
     }
 }
+
+const val NAV_HOME = "home"
+const val NAV_FAVORITE = "favorite"
+const val NAV_FEED = "feed"
+const val NAV_PROFILE = "profile"
 
 @Preview(showBackground = true)
 @Composable

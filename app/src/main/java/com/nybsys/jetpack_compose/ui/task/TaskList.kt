@@ -118,7 +118,8 @@ fun TitleText(title: String) {
             .padding(vertical = 16.dp),
         color = Color.Black.copy(alpha = 0.6f),
         fontWeight = FontWeight.Bold,
-        fontSize = 26.sp
+        fontSize = 26.sp,
+        textAlign = TextAlign.Center
     )
 }
 
