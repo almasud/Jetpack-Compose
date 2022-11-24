@@ -16,6 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.nybsys.jetpack_compose.ui.task.TaskDetails
+import com.nybsys.jetpack_compose.ui.task.TaskList
 import com.nybsys.jetpack_compose.ui.theme.JetpackComposeTheme
 import com.nybsys.jetpack_compose.ui.user.UserListScreen
 
@@ -33,6 +38,7 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MyApp() {
+    val navController = rememberNavController()
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -40,7 +46,17 @@ fun MyApp() {
             })
         },
         content = {
-            ComposeWithXml()
+            NavHost(
+                navController = navController,
+                startDestination = "home"
+            ) {
+                composable("home") {
+                    TaskList(navController)
+                }
+                composable("task-details") {
+                    TaskDetails()
+                }
+            }
         },
         backgroundColor = Color.LightGray
     )
