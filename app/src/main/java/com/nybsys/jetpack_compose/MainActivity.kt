@@ -16,9 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.nybsys.jetpack_compose.ui.task.TaskDetails
 import com.nybsys.jetpack_compose.ui.task.TaskList
 import com.nybsys.jetpack_compose.ui.theme.JetpackComposeTheme
@@ -53,8 +55,17 @@ fun MyApp() {
                 composable("home") {
                     TaskList(navController)
                 }
-                composable("task-details") {
-                    TaskDetails()
+                composable("task-details?item={item}",
+                arguments = listOf(
+                    navArgument("item") {
+                        type = NavType.StringType
+                        defaultValue = "No value"
+                        nullable = true
+                    }
+                )
+                    ) {
+                    val item = it.arguments?.getString("item")
+                    TaskDetails(item = item)
                 }
             }
         },

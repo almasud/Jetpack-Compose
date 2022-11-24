@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,16 +32,15 @@ const val TAG: String = "TaskList"
 
 @Composable
 fun TaskList(navHostController: NavHostController? = null) {
+    var text by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
         TextField(
-            value = "",
-            onValueChange = {
-
-            },
+            value = text,
+            onValueChange = { text = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
@@ -80,7 +79,7 @@ fun TaskItem(title: String, navHostController: NavHostController? = null) {
             .padding(bottom = 8.dp)
             .clickable {
                 Log.d(TAG, "TaskItem: is clicked!")
-                navHostController?.navigate("task-details")
+                navHostController?.navigate("task-details?item=$title")
             },
         shape = RoundedCornerShape(8.dp)
     ) {
